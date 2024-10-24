@@ -21,6 +21,23 @@ Execute the C Program for the desired output.
 
 ## 1.To Write a C program that illustrates files copying 
 
+```
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+int main()
+{
+char block[1024];
+int in, out;
+int nread;
+in = open("filecopy.c", O_RDONLY);
+out = open("file.out", O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR);
+while((nread = read(in,block,sizeof(block))) > 0)
+write(out,block,nread);
+exit(0);}
+
+```
 
 
 
@@ -29,12 +46,68 @@ Execute the C Program for the desired output.
 
 ## 2.To Write a C program that illustrates files locking
 
+```
+ganesh@ubuntu:~$ vi filelock.c
+ganesh@ubuntu:~$ gcc -o filelock.o filelock.c
+ganesh@ubuntu:~$ ./filelock.o tricky.txt 
+opening tricky.txt
+Acquiring shared lock using flock
+Acquiring exclusive lock using flock
+unlocking
+ganesh@ubuntu:~$ lslocks
+COMMAND           PID  TYPE SIZE MODE  M      START        END PATH
+VBoxService      1133 POSIX      WRITE 0          0          0 /run/snapd/ns...
+tracker-miner-f  1687 POSIX 2.7M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.3M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.4M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.2M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.2M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.4M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX 1.2M READ  0 1073741826 1073742335 /home/ganesh/.cac
+tracker-miner-f  1687 POSIX  32K READ  0        128        128 /home/ganesh/.cac
+VBoxClient       2259 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2260 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2267 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2272 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2277 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+update-notifier  2399 FLOCK      WRITE 0          0          0 /run/user/1000/up
+firefox          2524 POSIX      WRITE 0          0          0 /home/ganesh/snap
+firefox          2524 POSIX  96K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX 512K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX   5M WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX   5M WRITE 0 1073741826 1073742335 /home/ganesh/snap
+cron              642 FLOCK      WRITE 0          0          0 /run/snapd/ns...
+snapd             669 FLOCK      WRITE 0          0          0 /var/snap/firefox
+VBoxDRMClient    1131 POSIX      WRITE 0          0          0 /run/snapd/ns...
+pipewire         1588 FLOCK      WRITE 0          0          0 /run/user/1000/pi
+gnome-shell      1741 FLOCK      WRITE 0          0          0 /run/user/1000/wa
+VBoxClient       2095 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2096 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+VBoxClient       2268 POSIX   5B WRITE 0          0          0 /home/ganesh/.vbo
+firefox          2524 POSIX   5K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX 224K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX 256K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX  64K WRITE 0 1073741826 1073742335 /home/ganesh/snap
+firefox          2524 POSIX  14K WRITE 0 1073741826 1073742335 /home/ganesh/snap
 
-
+```
 
 ## OUTPUT
 
+```
+ganesh@ubuntu:~$ vi filecopy.c
+ganesh@ubuntu:~$ gcc -o filecopy.o filecopy.c
+ganesh@ubuntu:~$ ./filecopy.o
+ganesh@ubuntu:~$ ls -l filecopy.o
+-rwxrwxr-x 1 ganesh ganesh 16088 Oct 24 10:52 filecopy.o
 
+```
 
 
 
