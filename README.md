@@ -90,7 +90,7 @@ return 0;
 
 ## OUTPUT
 
-## files copying:
+## file copying:
 ```
 ganesh@ubuntu:~$ vi filecopy.c
 ganesh@ubuntu:~$ gcc -o filecopy.o filecopy.c
