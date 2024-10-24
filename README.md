@@ -47,6 +47,62 @@ exit(0);}
 ## 2.To Write a C program that illustrates files locking
 
 ```
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/file.h>
+int main (int argc, char* argv[])
+{ char* file = argv[1];
+ int fd;
+ struct flock lock;
+ printf ("opening %s\n", file);
+ /* Open a file descriptor to the file. */
+ fd = open (file, O_WRONLY);
+// acquire shared lock
+if (flock(fd, LOCK_SH) == -1) {
+    printf("error");
+}else
+{printf("Acquiring shared lock using flock");
+}
+getchar();
+// non-atomically upgrade to exclusive lock
+// do it in non-blocking mode, i.e. fail if can't upgrade immediately
+if (flock(fd, LOCK_EX | LOCK_NB) == -1) {
+    printf("error");
+}else
+{printf("Acquiring exclusive lock using flock");}
+getchar();
+// release lock
+// lock is also released automatically when close() is called or process exits
+if (flock(fd, LOCK_UN) == -1) {
+    printf("error");
+}else{
+printf("unlocking");
+}
+getchar();
+close (fd);
+return 0;
+}
+
+
+```
+
+## OUTPUT
+
+## files copying:
+```
+ganesh@ubuntu:~$ vi filecopy.c
+ganesh@ubuntu:~$ gcc -o filecopy.o filecopy.c
+ganesh@ubuntu:~$ ./filecopy.o
+ganesh@ubuntu:~$ ls -l filecopy.o
+-rwxrwxr-x 1 ganesh ganesh 16088 Oct 24 10:52 filecopy.o
+
+```
+
+## file locking:
+
+```
 ganesh@ubuntu:~$ vi filelock.c
 ganesh@ubuntu:~$ gcc -o filelock.o filelock.c
 ganesh@ubuntu:~$ ./filelock.o tricky.txt 
@@ -95,20 +151,7 @@ firefox          2524 POSIX 224K WRITE 0 1073741826 1073742335 /home/ganesh/snap
 firefox          2524 POSIX 256K WRITE 0 1073741826 1073742335 /home/ganesh/snap
 firefox          2524 POSIX  64K WRITE 0 1073741826 1073742335 /home/ganesh/snap
 firefox          2524 POSIX  14K WRITE 0 1073741826 1073742335 /home/ganesh/snap
-
 ```
-
-## OUTPUT
-
-```
-ganesh@ubuntu:~$ vi filecopy.c
-ganesh@ubuntu:~$ gcc -o filecopy.o filecopy.c
-ganesh@ubuntu:~$ ./filecopy.o
-ganesh@ubuntu:~$ ls -l filecopy.o
--rwxrwxr-x 1 ganesh ganesh 16088 Oct 24 10:52 filecopy.o
-
-```
-
 
 
 # RESULT:
